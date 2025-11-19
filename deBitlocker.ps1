@@ -1,8 +1,10 @@
 ﻿#SCRIPT PARA RECUPERAR Y RESPALDAR LA CALVE DE RECUPERACION
 
 # Ruta de respaldo
-$RutaRespaldo = "$env:USERPROFILE\BitLocker_Recovery_Keys"
-New-Item -ItemType Directory -Path $RutaRespaldo -Force | Out-Null
+$RutaRespaldo = "C:\BitLocker_Recovery_Keys"
+if (-not (Test-Path -Path $RutaRespaldo)) {
+    New-Item -ItemType Directory -Path $RutaRespaldo | Out-Null
+}
 
 # Obtener unidades locales
 $Unidades = @(Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType = 3")
@@ -45,8 +47,3 @@ Clave: $Clave
         Write-Host "⚠️ No se encontró clave de recuperación en $Letra."
     }
 }
-
-
-
-
-
